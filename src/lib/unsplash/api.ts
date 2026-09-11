@@ -52,6 +52,40 @@ async function unsplashFetch<T>(
   return { data: (await response.json()) as T, headers: response.headers };
 }
 
+function toPhoto(raw: UnsplashPhoto): UnsplashPhoto {
+  return {
+    id: raw.id,
+    width: raw.width,
+    height: raw.height,
+    color: raw.color,
+    description: raw.description,
+    alt_description: raw.alt_description,
+    created_at: raw.created_at,
+    likes: raw.likes,
+    urls: {
+      raw: raw.urls.raw,
+      regular: raw.urls.regular,
+    },
+    user: {
+      name: raw.user.name,
+      username: raw.user.username,
+      profile_image: {
+        medium: raw.user.profile_image.medium,
+      },
+    },
+  };
+}
+
+function toPhotoDetails(raw: UnsplashPhotoDetails): UnsplashPhotoDetails {
+  return {
+    ...toPhoto(raw),
+    tags: (raw.tags ?? []).map((tag) => ({ type: tag.type, title: tag.title })),
+    downloads: raw.downloads,
+    views: raw.views,
+    location: raw.location?.name ? { name: raw.location.name } : undefined,
+  };
+}
+
 export async function getPhotos(page: number): Promise<PhotosPage> {
   const { data, headers } = await unsplashFetch<UnsplashPhoto[]>("/photos", {
     page: String(page),
@@ -65,13 +99,13 @@ export async function getPhotos(page: number): Promise<PhotosPage> {
       ? page + 1
       : page;
 
-  return { photos: data, totalPages, total };
+  return { photos: data.map(toPhoto), totalPages, total };
 }
 
 export async function getPhoto(id: string): Promise<UnsplashPhotoDetails> {
   const { data } = await unsplashFetch<UnsplashPhotoDetails>(`/photos/${id}`);
 
-  return data;
+  return toPhotoDetails(data);
 }
 
 export async function searchPhotos(
@@ -88,7 +122,7 @@ export async function searchPhotos(
   );
 
   return {
-    photos: data.results,
+    photos: data.results.map(toPhoto),
     totalPages: data.total_pages,
     total: data.total,
   };

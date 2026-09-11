@@ -1,0 +1,42 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.toggle {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+
+  @include below($bp-tablet) {
+    display: none;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 32px;
+  color: $color-text-secondary;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+
+  & + & {
+    border-left: 1px solid $color-border;
+  }
+
+  @include hoverable {
+    color: $color-text;
+  }
+}
+
+.active {
+  color: #fff;
+  background: $color-text;
+
+  @include hoverable {
+    color: #fff;
+  }
+}

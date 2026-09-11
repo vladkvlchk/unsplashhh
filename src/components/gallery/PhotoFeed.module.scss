@@ -1,0 +1,46 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.feed {
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+
+  @include below($bp-tablet) {
+    display: none;
+  }
+}
+
+.refreshing {
+  opacity: 0.6;
+  transition: opacity $transition-fast;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding: 80px 20px;
+  color: $color-text-secondary;
+  text-align: center;
+}
+
+.retryButton {
+  padding: 8px 16px;
+  color: $color-text-secondary;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    border-color: $color-text;
+  }
+}

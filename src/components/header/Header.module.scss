@@ -1,0 +1,60 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  height: $header-height;
+  padding: 0 $container-padding;
+  background: $color-background;
+  box-shadow: 0 1px 0 $color-border-light;
+
+  @include below($bp-tablet) {
+    gap: 12px;
+    padding: 0 $container-padding-mobile;
+  }
+}
+
+.logo {
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+  align-items: center;
+}
+
+.logoText {
+  font-size: $font-size-large;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  @include below($bp-tablet) {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.joinButton {
+  padding: 8px 14px;
+  font-size: $font-size-small;
+  font-weight: 500;
+  color: $color-text-secondary;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    border-color: $color-text-secondary;
+  }
+}

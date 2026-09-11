@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
+import { Header } from "@/components/header/Header";
 import { UNSPLASH_IMAGE_CDN_URL } from "@/constants/api";
 import { APP_DESCRIPTION, APP_NAME } from "@/constants/app";
 
@@ -19,7 +20,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en">
       <body>
         <link rel="preconnect" href={UNSPLASH_IMAGE_CDN_URL} />
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

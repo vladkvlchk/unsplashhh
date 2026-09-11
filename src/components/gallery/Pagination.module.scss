@@ -1,0 +1,51 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 60px;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  border: 1px solid transparent;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    border-color: $color-border;
+  }
+}
+
+.active {
+  font-weight: 600;
+  color: $color-text;
+  border-color: $color-text;
+}
+
+.disabled {
+  pointer-events: none;
+  color: $color-text-tertiary;
+  opacity: 0.5;
+}
+
+.ellipsis {
+  min-width: 36px;
+  color: $color-text-tertiary;
+  text-align: center;
+  user-select: none;
+}
