@@ -101,9 +101,7 @@ export default async function PhotoPage({ params }: PageProps<"/photos/[id]">) {
         />
       </figure>
       <section className={styles.details}>
-        {photo.description && (
-          <p className={styles.description}>{capitalize(photo.description)}</p>
-        )}
+        <h1 className={styles.description}>{capitalize(alt)}</h1>
         <dl className={styles.stats}>
           <div className={styles.stat}>
             <dt className={styles.statLabel}>Published</dt>
