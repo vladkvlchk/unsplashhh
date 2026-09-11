@@ -19,10 +19,11 @@ export const BREAKPOINTS = {
 export const CONTAINER_MAX_WIDTH_PX = BREAKPOINTS.desktop;
 export const CONTAINER_PADDING_PX = 20;
 
-export const PRIORITY_IMAGE_COUNT = 6;
+export const PRIORITY_ROWS_PER_COLUMN = 2;
 export const AVATAR_SIZE_PX = 32;
 
-export const PHOTO_PAGE_IMAGE_SIZES = `(max-width: ${BREAKPOINTS.laptop - 1}px) 100vw, 80vw`;
+export const PHOTO_PAGE_MAX_WIDTH_VW = 80;
+export const PHOTO_PAGE_MAX_HEIGHT_VH = 78;
 
 export const PROFILE_SKELETON_COUNT = 8;
 

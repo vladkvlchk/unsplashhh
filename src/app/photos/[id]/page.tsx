@@ -6,13 +6,14 @@ import { notFound } from "next/navigation";
 
 import { HeartIcon } from "@/components/icons/icons";
 import { SavePhotoButton } from "@/components/save-photo/SavePhotoButton";
-import { AVATAR_SIZE_PX, PHOTO_PAGE_IMAGE_SIZES } from "@/constants/layout";
+import { AVATAR_SIZE_PX } from "@/constants/layout";
 import { ROUTES } from "@/constants/routes";
 import {
   META_DESCRIPTION_MAX_LENGTH,
   PHOTO_TITLE_MAX_LENGTH,
 } from "@/constants/seo";
 import { capitalize, formatDate, formatNumber, truncate } from "@/lib/format";
+import { getPhotoPageSizes } from "@/lib/gallery";
 import { getPhoto } from "@/lib/unsplash/api";
 import { isNotFoundError } from "@/lib/unsplash/errors";
 import type { UnsplashPhotoDetails } from "@/types/unsplash";
@@ -93,7 +94,7 @@ export default async function PhotoPage({ params }: PageProps<"/photos/[id]">) {
           alt={alt}
           width={photo.width}
           height={photo.height}
-          sizes={PHOTO_PAGE_IMAGE_SIZES}
+          sizes={getPhotoPageSizes(photo.width, photo.height)}
           priority
           className={styles.photo}
           style={{ backgroundColor: photo.color ?? undefined }}

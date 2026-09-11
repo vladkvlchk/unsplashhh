@@ -3,6 +3,8 @@ import {
   type ColumnCount,
   CONTAINER_MAX_WIDTH_PX,
   CONTAINER_PADDING_PX,
+  PHOTO_PAGE_MAX_HEIGHT_VH,
+  PHOTO_PAGE_MAX_WIDTH_VW,
   TABLET_COLUMN_MAP,
 } from "@/constants/layout";
 
@@ -19,4 +21,11 @@ export function getGallerySizes(columns: ColumnCount): string {
     `(max-width: ${BREAKPOINTS.desktop - 1}px) ${desktopVw}vw`,
     `${maxColumnWidth}px`,
   ].join(", ");
+}
+
+export function getPhotoPageSizes(width: number, height: number): string {
+  const aspectRatio = (width / height).toFixed(3);
+  const fittedWidth = `min(${PHOTO_PAGE_MAX_WIDTH_VW}vw, calc(${aspectRatio} * ${PHOTO_PAGE_MAX_HEIGHT_VH}vh))`;
+
+  return `(max-width: ${BREAKPOINTS.laptop - 1}px) 100vw, ${fittedWidth}`;
 }
