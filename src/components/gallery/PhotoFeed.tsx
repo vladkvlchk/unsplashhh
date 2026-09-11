@@ -55,10 +55,12 @@ export function PhotoFeed({
     }
 
     const prefetchPage = (targetPage: number) =>
-      queryClient.prefetchQuery({
-        queryKey: getFeedQueryKey(source, targetPage),
-        queryFn: () => fetchFeedPage(source, targetPage),
-      });
+      queryClient
+        .query({
+          queryKey: getFeedQueryKey(source, targetPage),
+          queryFn: () => fetchFeedPage(source, targetPage),
+        })
+        .catch(() => undefined);
 
     if (page < data.totalPages) {
       void prefetchPage(page + 1);

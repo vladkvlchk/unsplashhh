@@ -21,10 +21,12 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   );
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: QUERY_KEYS.photos(page),
-    queryFn: () => getPhotos(page),
-  });
+  await queryClient
+    .query({
+      queryKey: QUERY_KEYS.photos(page),
+      queryFn: () => getPhotos(page),
+    })
+    .catch(() => undefined);
 
   return (
     <main className="container">
