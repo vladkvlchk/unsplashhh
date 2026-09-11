@@ -54,6 +54,9 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start`      | Serve the production build         |
 | `npm run lint`       | Run ESLint                         |
 | `npm run type-check` | Run the TypeScript compiler checks |
+| `npm run test`       | Run unit and integration tests     |
+| `npm run test:watch` | Run tests in watch mode            |
+| `npm run test:e2e`   | Run Playwright end-to-end tests    |
 
 A husky `pre-push` hook runs `type-check` and `build` before every push.
 
@@ -64,11 +67,14 @@ A husky `pre-push` hook runs `type-check` and `build` before every push.
 - **Performance on slow devices.** The masonry layout is pure CSS (`column-count`) with zero JavaScript, layout shift is prevented via aspect ratios, images load through the Unsplash CDN with a custom `next/image` loader (`auto=format`, exact `sizes` per column layout), dominant-color placeholders show instantly, offscreen cards skip rendering via `content-visibility`, and the React Compiler memoizes components automatically.
 - **Constants.** Every non-trivial literal (API config, breakpoints, storage keys, routes, validation limits) lives in `src/constants`.
 
-## Testing recommendations
+## Testing
 
-The most valuable places to add tests, in priority order:
+**Unit & integration** — `npm run test` (Vitest + Testing Library + MSW, colocated `*.test.ts(x)` files):
 
-1. **Unit — pure logic** (`vitest`): `getPaginationRange` (window/ellipsis edge cases), `parsePageParam` / `parseColumnCount` (invalid input fallbacks), `unsplashImageLoader` (URL param handling), and the zod schemas.
-2. **Unit — collection store**: `collectionStore` toggle/subscribe behavior and storage-event sync between tabs.
-3. **Integration — feed** (Testing Library + MSW): `PhotoFeed` pagination flow, loading / error / empty states, and the columns toggle.
-4. **E2E** (Playwright): search → results → photo → tag → tag feed journey, registration flow, saving/removing a photo from the profile collection, and an SSR smoke test (photos present in the initial HTML with JS disabled).
+- pure logic: `getPaginationRange` window/ellipsis edge cases, `parsePageParam` / `parseColumnCount` fallbacks, `unsplashImageLoader` URL handling, zod schemas;
+- `collectionStore`: toggle/subscribe behavior, persistence, cross-tab storage-event sync, corrupted-data recovery;
+- `PhotoFeed` integration with a mocked API: skeleton → photos, error state with retry, empty state, columns toggle with cookie persistence, pagination URL updates and background prefetch of the next page.
+
+**End-to-end** — `npm run test:e2e` (Playwright, chromium; run `npx playwright install chromium` once). Covers the SSR smoke test (photos present in the server-rendered HTML), pagination, the columns toggle, the search → photo → tag journey, registration validation and the full profile collection flow. E2E runs against the real Unsplash API, so a valid `UNSPLASH_ACCESS_KEY` with free rate limit is required (the demo tier allows 50 requests/hour; one cold run consumes about 8 of them, repeat runs mostly hit the server-side cache).
+
+Next steps I would add with more time: a CI workflow running lint + tests on pull requests, contract tests for the Unsplash response mappers, axe-based accessibility checks and visual regression snapshots of the masonry grid.
