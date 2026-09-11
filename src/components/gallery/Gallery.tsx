@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import { type ColumnCount, PRIORITY_IMAGE_COUNT } from "@/constants/layout";
+import { type ColumnCount, PRIORITY_ROWS_PER_COLUMN } from "@/constants/layout";
 import { getGallerySizes } from "@/lib/gallery";
 import type { UnsplashPhoto } from "@/types/unsplash";
 
@@ -13,15 +13,11 @@ import { PhotoCard } from "./PhotoCard";
 interface GalleryProps {
   photos: UnsplashPhoto[];
   columns: ColumnCount;
-  eagerCount?: number;
 }
 
-export const Gallery = memo(function Gallery({
-  photos,
-  columns,
-  eagerCount = PRIORITY_IMAGE_COUNT,
-}: GalleryProps) {
+export const Gallery = memo(function Gallery({ photos, columns }: GalleryProps) {
   const sizes = getGallerySizes(columns);
+  const photosPerColumn = Math.ceil(photos.length / columns);
 
   return (
     <ul className={clsx(styles.gallery, styles[`columns${columns}`])}>
@@ -30,7 +26,7 @@ export const Gallery = memo(function Gallery({
           key={photo.id}
           photo={photo}
           sizes={sizes}
-          priority={index < eagerCount}
+          priority={index % photosPerColumn < PRIORITY_ROWS_PER_COLUMN}
         />
       ))}
     </ul>

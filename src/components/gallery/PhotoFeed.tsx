@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ColumnsToggle } from "@/components/gallery/ColumnsToggle";
 import { Gallery } from "@/components/gallery/Gallery";
@@ -69,20 +69,17 @@ export function PhotoFeed({
     }
   }, [data, page, queryClient, source]);
 
-  const handleColumnsChange = useCallback((nextColumns: ColumnCount) => {
+  const handleColumnsChange = (nextColumns: ColumnCount) => {
     setColumns(nextColumns);
     setClientCookie(COLUMNS_COOKIE_NAME, String(nextColumns));
-  }, []);
+  };
 
-  const handlePageChange = useCallback(
-    (nextPage: number) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(PAGE_PARAM, String(nextPage));
-      window.history.pushState(null, "", `${pathname}?${params.toString()}`);
-      window.scrollTo({ top: 0 });
-    },
-    [pathname, searchParams],
-  );
+  const handlePageChange = (nextPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(PAGE_PARAM, String(nextPage));
+    window.history.pushState(null, "", `${pathname}?${params.toString()}`);
+    window.scrollTo({ top: 0 });
+  };
 
   return (
     <section className={styles.feed}>
