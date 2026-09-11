@@ -1,0 +1,122 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.page {
+  padding-bottom: 80px;
+}
+
+.topBar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.author {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+
+.avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.authorName {
+  font-weight: 600;
+}
+
+.authorUsername {
+  font-size: $font-size-small;
+  color: $color-text-secondary;
+}
+
+.likes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: $font-size-small;
+  font-weight: 500;
+  color: $color-text-secondary;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+}
+
+.figure {
+  display: flex;
+  justify-content: center;
+}
+
+.photo {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100vh - #{$header-height} - 140px);
+  border-radius: $radius-small;
+
+  @include below($bp-tablet) {
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
+.details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 32px;
+}
+
+.description {
+  margin-bottom: 24px;
+  font-size: $font-size-large;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  margin-bottom: 32px;
+}
+
+.statLabel {
+  font-size: $font-size-small;
+  color: $color-text-secondary;
+}
+
+.statValue {
+  font-size: $font-size-base;
+}
+
+.tagsTitle {
+  margin-bottom: 12px;
+  font-size: $font-size-base;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: $font-size-small;
+  color: $color-text-secondary;
+  text-transform: capitalize;
+  background: $color-surface;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    background: $color-surface-hover;
+  }
+}

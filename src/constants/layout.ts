@@ -22,6 +22,8 @@ export const CONTAINER_PADDING_PX = 20;
 export const PRIORITY_IMAGE_COUNT = 6;
 export const AVATAR_SIZE_PX = 32;
 
+export const PHOTO_PAGE_IMAGE_SIZES = `(max-width: ${BREAKPOINTS.laptop - 1}px) 100vw, 80vw`;
+
 export const SKELETON_ASPECT_RATIOS = [
   "3 / 4",
   "2 / 3",

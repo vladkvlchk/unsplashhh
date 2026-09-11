@@ -1,0 +1,2 @@
+export const PHOTO_TITLE_MAX_LENGTH = 70;
+export const META_DESCRIPTION_MAX_LENGTH = 160;
