@@ -72,9 +72,18 @@ A husky `pre-push` hook runs `type-check` and `build` before every push.
 **Unit & integration** — `npm run test` (Vitest + Testing Library + MSW, colocated `*.test.ts(x)` files):
 
 - pure logic: `getPaginationRange` window/ellipsis edge cases, `parsePageParam` / `parseColumnCount` fallbacks, `unsplashImageLoader` URL handling, zod schemas;
+- contract tests for the Unsplash API layer: auth and versioning headers, pagination params, trimming responses to exactly the fields the UI consumes, totals with and without the `X-Total` header, typed 404 / error handling;
 - `collectionStore`: toggle/subscribe behavior, persistence, cross-tab storage-event sync, corrupted-data recovery;
-- `PhotoFeed` integration with a mocked API: skeleton → photos, error state with retry, empty state, columns toggle with cookie persistence, pagination URL updates and background prefetch of the next page.
+- `PhotoFeed` integration with a mocked API: skeleton → photos, error and rate-limit states with retry, empty state, columns toggle with cookie persistence, pagination URL updates and background prefetch of the next page.
 
-**End-to-end** — `npm run test:e2e` (Playwright, chromium; run `npx playwright install chromium` once). Covers the SSR smoke test (photos present in the server-rendered HTML), pagination, the columns toggle, the search → photo → tag journey, registration validation and the full profile collection flow. E2E runs against the real Unsplash API, so a valid `UNSPLASH_ACCESS_KEY` with free rate limit is required (the demo tier allows 50 requests/hour; one cold run consumes about 8 of them, repeat runs mostly hit the server-side cache).
+**End-to-end** — `npm run test:e2e` (Playwright, chromium; run `npx playwright install chromium` once):
 
-Next steps I would add with more time: a CI workflow running lint + tests on pull requests, contract tests for the Unsplash response mappers, axe-based accessibility checks and visual regression snapshots of the masonry grid.
+- SSR smoke test (photos and pagination present in the server-rendered HTML), pagination, the columns toggle, the search → photo → tag journey, registration validation and the full profile collection flow;
+- axe accessibility checks of the feed, photo and registration pages;
+- visual regression snapshots of the masonry grid at 3 and 5 columns, rendered from fixture data with stubbed images so the layout stays deterministic.
+
+E2E journeys run against the real Unsplash API, so a valid `UNSPLASH_ACCESS_KEY` with free rate limit is required (the demo tier allows 50 requests/hour; one cold run consumes about 8 of them, repeat runs mostly hit the server-side cache).
+
+## CI
+
+A GitHub Actions workflow runs ESLint, the TypeScript check, the unit/integration suite and a production build on every push and pull request to `main`. The husky `pre-push` hook mirrors the type-check and build locally.
