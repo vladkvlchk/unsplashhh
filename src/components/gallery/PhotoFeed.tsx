@@ -12,12 +12,13 @@ import { ColumnsToggle } from "@/components/gallery/ColumnsToggle";
 import { Gallery } from "@/components/gallery/Gallery";
 import { GallerySkeleton } from "@/components/gallery/GallerySkeleton";
 import { Pagination } from "@/components/gallery/Pagination";
-import { DEFAULT_PAGE } from "@/constants/api";
+import { DEFAULT_PAGE, RATE_LIMIT_STATUS_CODES } from "@/constants/api";
 import { type ColumnCount } from "@/constants/layout";
 import { PAGE_PARAM } from "@/constants/search-params";
 import { COLUMNS_COOKIE_NAME } from "@/constants/storage";
 import { setClientCookie } from "@/lib/client-cookies";
 import { parsePageParam } from "@/lib/schemas/pagination";
+import { HttpError } from "@/lib/unsplash/client";
 import {
   type FeedSource,
   fetchFeedPage,
@@ -43,11 +44,16 @@ export function PhotoFeed({
   const page = parsePageParam(searchParams.get(PAGE_PARAM));
   const [columns, setColumns] = useState(initialColumns);
 
-  const { data, isPending, isError, isPlaceholderData, refetch } = useQuery({
-    queryKey: getFeedQueryKey(source, page),
-    queryFn: () => fetchFeedPage(source, page),
-    placeholderData: keepPreviousData,
-  });
+  const { data, error, isPending, isError, isPlaceholderData, refetch } =
+    useQuery({
+      queryKey: getFeedQueryKey(source, page),
+      queryFn: () => fetchFeedPage(source, page),
+      placeholderData: keepPreviousData,
+    });
+
+  const isRateLimited =
+    error instanceof HttpError &&
+    (RATE_LIMIT_STATUS_CODES as readonly number[]).includes(error.status);
 
   useEffect(() => {
     if (!data) {
@@ -92,7 +98,11 @@ export function PhotoFeed({
         <GallerySkeleton columns={columns} />
       ) : isError ? (
         <div className={styles.message} role="alert">
-          <p>Something went wrong while loading photos.</p>
+          <p>
+            {isRateLimited
+              ? "The Unsplash API hourly limit has been reached. Please try again in a few minutes."
+              : "Something went wrong while loading photos."}
+          </p>
           <button
             type="button"
             className={styles.retryButton}

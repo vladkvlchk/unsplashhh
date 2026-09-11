@@ -121,6 +121,20 @@ describe("PhotoFeed", () => {
     expect(await screen.findByAltText("Alt for p1-0")).toBeInTheDocument();
   });
 
+  it("explains rate limiting instead of a generic error", async () => {
+    server.use(
+      http.get("*/api/photos", () =>
+        HttpResponse.json({ message: "Rate Limit Exceeded" }, { status: 403 }),
+      ),
+    );
+
+    renderFeed();
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "The Unsplash API hourly limit has been reached. Please try again in a few minutes.",
+    );
+  });
+
   it("shows the empty message when there are no results", async () => {
     server.use(
       http.get("*/api/photos", () =>

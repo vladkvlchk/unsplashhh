@@ -2,11 +2,24 @@ import { API_ROUTES } from "@/constants/routes";
 import { PAGE_PARAM, QUERY_PARAM } from "@/constants/search-params";
 import type { PhotosPage } from "@/types/unsplash";
 
+export class HttpError extends Error {
+  constructor(
+    public readonly status: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "HttpError";
+  }
+}
+
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Request to ${url} failed with status ${response.status}`);
+    throw new HttpError(
+      response.status,
+      `Request to ${url} failed with status ${response.status}`,
+    );
   }
 
   return response.json() as Promise<T>;
