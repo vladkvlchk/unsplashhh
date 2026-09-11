@@ -1,0 +1,24 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.header {
+  padding: 40px 0 8px;
+
+  @include below($bp-tablet) {
+    padding: 24px 0 4px;
+  }
+}
+
+.title {
+  font-size: 40px;
+  text-transform: capitalize;
+
+  @include below($bp-tablet) {
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: $color-text-secondary;
+}
