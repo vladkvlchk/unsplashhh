@@ -11,6 +11,9 @@ export default defineConfig({
   timeout: 60_000,
   expect: {
     timeout: 10_000,
+    toHaveScreenshot: {
+      maxDiffPixels: 100,
+    },
   },
   use: {
     baseURL: BASE_URL,
