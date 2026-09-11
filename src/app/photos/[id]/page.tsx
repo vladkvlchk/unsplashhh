@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { HeartIcon } from "@/components/icons/icons";
+import { SavePhotoButton } from "@/components/save-photo/SavePhotoButton";
 import { AVATAR_SIZE_PX, PHOTO_PAGE_IMAGE_SIZES } from "@/constants/layout";
 import { ROUTES } from "@/constants/routes";
 import {
@@ -78,9 +79,12 @@ export default async function PhotoPage({ params }: PageProps<"/photos/[id]">) {
             <p className={styles.authorUsername}>@{photo.user.username}</p>
           </div>
         </div>
-        <div className={styles.likes} title="Likes">
-          <HeartIcon />
-          <span>{formatNumber(photo.likes)}</span>
+        <div className={styles.actions}>
+          <div className={styles.likes} title="Likes">
+            <HeartIcon />
+            <span>{formatNumber(photo.likes)}</span>
+          </div>
+          <SavePhotoButton photo={photo} appearance="labeled" />
         </div>
       </div>
       <figure className={styles.figure}>

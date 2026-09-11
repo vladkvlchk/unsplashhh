@@ -1,0 +1,45 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-secondary;
+  background: $color-background;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    border-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    border-color: $color-text-secondary;
+  }
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.labeled {
+  height: 38px;
+  padding: 0 14px;
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.saved {
+  color: #fff;
+  background: $color-text;
+  border-color: $color-text;
+
+  @include hoverable {
+    color: #fff;
+    border-color: $color-text;
+  }
+}

@@ -1,0 +1,35 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+
+  @include below($bp-tablet) {
+    display: none;
+  }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding: 80px 20px;
+  color: $color-text-secondary;
+  text-align: center;
+}
+
+.browseLink {
+  padding: 10px 20px;
+  font-weight: 500;
+  color: #fff;
+  background: $color-text;
+  border-radius: $radius-small;
+  transition: opacity $transition-fast;
+
+  @include hoverable {
+    opacity: 0.85;
+  }
+}

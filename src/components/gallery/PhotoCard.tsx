@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
 
+import { SavePhotoButton } from "@/components/save-photo/SavePhotoButton";
 import { AVATAR_SIZE_PX } from "@/constants/layout";
 import { ROUTES } from "@/constants/routes";
 import type { UnsplashPhoto } from "@/types/unsplash";
@@ -73,6 +74,7 @@ export const PhotoCard = memo(function PhotoCard({
           </span>
         </span>
       </Link>
+      <SavePhotoButton photo={photo} className={styles.saveButton} />
     </li>
   );
 });
