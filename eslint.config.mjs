@@ -23,6 +23,17 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  {
+    files: ["**/*.test.{ts,tsx}", "src/test/**"],
+    rules: {
+      "@next/next/no-img-element": "off",
+      "jsx-a11y/alt-text": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { ignoreRestSiblings: true },
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
