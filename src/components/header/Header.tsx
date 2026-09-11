@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { HeaderUser } from "@/components/header/HeaderUser";
 import { SearchForm } from "@/components/header/SearchForm";
 import { LogoIcon } from "@/components/icons/icons";
 import { APP_NAME } from "@/constants/app";
@@ -23,9 +24,7 @@ export function Header() {
         <SearchForm />
       </Suspense>
       <nav className={styles.nav}>
-        <Link href={ROUTES.register} className={styles.joinButton}>
-          Join
-        </Link>
+        <HeaderUser />
       </nav>
     </header>
   );

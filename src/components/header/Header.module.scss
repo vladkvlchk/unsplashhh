@@ -42,19 +42,3 @@
   align-items: center;
 }
 
-.joinButton {
-  padding: 8px 14px;
-  font-size: $font-size-small;
-  font-weight: 500;
-  color: $color-text-secondary;
-  border: 1px solid $color-border;
-  border-radius: $radius-small;
-  transition:
-    color $transition-fast,
-    border-color $transition-fast;
-
-  @include hoverable {
-    color: $color-text;
-    border-color: $color-text-secondary;
-  }
-}

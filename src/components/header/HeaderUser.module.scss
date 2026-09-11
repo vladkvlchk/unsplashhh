@@ -1,0 +1,60 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.joinButton {
+  padding: 8px 14px;
+  font-size: $font-size-small;
+  font-weight: 500;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  transition:
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+    border-color: $color-text-secondary;
+  }
+}
+
+.user {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatarLink {
+  display: flex;
+  border-radius: 50%;
+  transition: opacity $transition-fast;
+
+  @include hoverable {
+    opacity: 0.85;
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: $font-size-small;
+  font-weight: 600;
+  color: #fff;
+  background: $color-text;
+  border-radius: 50%;
+}
+
+.logoutButton {
+  font-size: $font-size-small;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+  }
+}

@@ -1,0 +1,64 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 32px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: $font-size-small;
+  font-weight: 500;
+}
+
+.input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid $color-border;
+  border-radius: $radius-small;
+  outline: none;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    border-color: $color-text;
+  }
+
+  &[aria-invalid="true"] {
+    border-color: $color-error;
+  }
+}
+
+.fieldError,
+.serverError {
+  font-size: $font-size-small;
+  color: $color-error;
+}
+
+.submit {
+  height: 44px;
+  margin-top: 8px;
+  font-weight: 600;
+  color: #fff;
+  background: $color-text;
+  border-radius: $radius-small;
+  transition: opacity $transition-fast;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  @include hoverable {
+    opacity: 0.85;
+  }
+}
