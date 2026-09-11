@@ -1,0 +1,36 @@
+$bp-mobile: 375px;
+$bp-tablet: 768px;
+$bp-laptop: 1024px;
+$bp-desktop: 1440px;
+
+$color-text: #111;
+$color-text-secondary: #767676;
+$color-text-tertiary: #a5a5a5;
+$color-border: #d1d1d1;
+$color-border-light: #e5e5e5;
+$color-background: #fff;
+$color-surface: #eee;
+$color-surface-hover: #e5e5e5;
+$color-accent: #007fff;
+$color-error: #e25c3d;
+$color-overlay: rgb(0 0 0 / 34%);
+
+$font-family-base:
+  -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue",
+  arial, sans-serif;
+
+$font-size-base: 15px;
+$font-size-small: 13px;
+$font-size-large: 18px;
+
+$header-height: 62px;
+$container-max-width: $bp-desktop;
+$container-padding: 20px;
+$container-padding-mobile: 12px;
+
+$radius-small: 4px;
+$radius-medium: 8px;
+$radius-round: 24px;
+
+$transition-fast: 0.15s ease;
+$transition-medium: 0.3s ease;
