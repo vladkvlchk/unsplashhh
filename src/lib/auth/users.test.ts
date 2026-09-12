@@ -1,30 +1,35 @@
 import { describe, expect, it } from "vitest";
 
-import { USERS_COOKIE_MAX_BYTES } from "@/constants/storage";
 import { type StoredUser, usersFitCookie } from "@/lib/auth/users";
 
-function makeStoredUser(index: number): StoredUser {
+function makeStoredUser(index: number, name?: string): StoredUser {
+  const paddedIndex = String(index).padStart(2, "0");
+
   return {
-    email: `user-${index}@example.com`,
-    name: `User ${index}`,
+    email: `user-${paddedIndex}@example.com`,
+    name: name ?? `User ${paddedIndex}`,
     salt: "a".repeat(32),
     passwordHash: "b".repeat(128),
   };
 }
 
+function makeStoredUsers(count: number, makeName?: (index: number) => string) {
+  return Array.from({ length: count }, (_, index) =>
+    makeStoredUser(index, makeName?.(index)),
+  );
+}
+
 describe("usersFitCookie", () => {
-  it("accepts a store that fits into the cookie limit", () => {
-    expect(usersFitCookie([makeStoredUser(1)])).toBe(true);
+  it("accepts as many realistic users as the encoded browser limit allows", () => {
+    expect(usersFitCookie(makeStoredUsers(13))).toBe(true);
+    expect(usersFitCookie(makeStoredUsers(14))).toBe(false);
   });
 
-  it("rejects a store that would overflow the cookie", () => {
-    const tooMany = Array.from({ length: 20 }, (_, index) =>
-      makeStoredUser(index),
-    );
+  it("accounts for multi-byte names inflating the encoded size", () => {
+    const cyrillicName = (index: number) =>
+      `Користувач ${String(index).padStart(2, "0")}`;
 
-    expect(JSON.stringify(tooMany).length).toBeGreaterThan(
-      USERS_COOKIE_MAX_BYTES,
-    );
-    expect(usersFitCookie(tooMany)).toBe(false);
+    expect(usersFitCookie(makeStoredUsers(11, cyrillicName))).toBe(true);
+    expect(usersFitCookie(makeStoredUsers(12, cyrillicName))).toBe(false);
   });
 });

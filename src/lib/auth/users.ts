@@ -54,5 +54,7 @@ export async function findUserByEmail(
 }
 
 export function usersFitCookie(users: StoredUser[]): boolean {
-  return JSON.stringify(users).length <= USERS_COOKIE_MAX_BYTES;
+  const cookie = `${USERS_COOKIE_NAME}=${encodeURIComponent(JSON.stringify(users))}`;
+
+  return cookie.length <= USERS_COOKIE_MAX_BYTES;
 }
