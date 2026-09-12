@@ -1,16 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 import { ColumnsToggle } from "@/components/gallery/ColumnsToggle";
 import { Gallery } from "@/components/gallery/Gallery";
 import { GallerySkeleton } from "@/components/gallery/GallerySkeleton";
 import { type ColumnCount, PROFILE_SKELETON_COUNT } from "@/constants/layout";
 import { ROUTES } from "@/constants/routes";
-import { COLUMNS_COOKIE_NAME } from "@/constants/storage";
-import { setClientCookie } from "@/lib/client-cookies";
 import { useCollection } from "@/lib/collection/hooks";
+import { useGalleryColumns } from "@/lib/hooks/use-gallery-columns";
 import { useHydrated } from "@/lib/hooks/use-hydrated";
 
 import styles from "./ProfileCollection.module.scss";
@@ -22,12 +20,7 @@ interface ProfileCollectionProps {
 export function ProfileCollection({ initialColumns }: ProfileCollectionProps) {
   const hydrated = useHydrated();
   const photos = useCollection();
-  const [columns, setColumns] = useState(initialColumns);
-
-  const handleColumnsChange = (nextColumns: ColumnCount) => {
-    setColumns(nextColumns);
-    setClientCookie(COLUMNS_COOKIE_NAME, String(nextColumns));
-  };
+  const { columns, changeColumns } = useGalleryColumns(initialColumns);
 
   if (!hydrated) {
     return (
@@ -49,7 +42,7 @@ export function ProfileCollection({ initialColumns }: ProfileCollectionProps) {
   return (
     <section>
       <div className={styles.toolbar}>
-        <ColumnsToggle value={columns} onChange={handleColumnsChange} />
+        <ColumnsToggle value={columns} onChange={changeColumns} />
       </div>
       <Gallery photos={photos} columns={columns} />
     </section>
