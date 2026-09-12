@@ -3,9 +3,10 @@
 import { redirect } from "next/navigation";
 
 import { ROUTES } from "@/constants/routes";
-import { createSalt, hashPassword } from "@/lib/auth/passwords";
+import { createSalt, hashPassword, verifyPassword } from "@/lib/auth/passwords";
 import { clearSession, setSession } from "@/lib/auth/session";
 import { findUserByEmail, persistUsers, readUsers } from "@/lib/auth/users";
+import { type LoginFormValues, loginFormSchema } from "@/lib/schemas/login";
 import {
   type RegisterFormValues,
   registerFormSchema,
@@ -35,6 +36,30 @@ export async function registerUser(
     { email, name, salt, passwordHash: hashPassword(password, salt) },
   ]);
   await setSession({ name, email });
+
+  redirect(ROUTES.home);
+}
+
+export async function loginUser(
+  values: LoginFormValues,
+): Promise<{ error: string } | void> {
+  const parsed = loginFormSchema.safeParse(values);
+
+  if (!parsed.success) {
+    return { error: "Please check the entered data and try again" };
+  }
+
+  const email = parsed.data.email.toLowerCase();
+  const user = await findUserByEmail(email);
+
+  if (
+    !user ||
+    !verifyPassword(parsed.data.password, user.salt, user.passwordHash)
+  ) {
+    return { error: "Invalid email or password" };
+  }
+
+  await setSession({ name: user.name, email: user.email });
 
   redirect(ROUTES.home);
 }

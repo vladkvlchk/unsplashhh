@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { loginUser } from "@/app/login/actions";
+import { loginUser } from "@/lib/auth/actions";
 import { type LoginFormValues, loginFormSchema } from "@/lib/schemas/login";
 
 import styles from "./AuthForm.module.scss";

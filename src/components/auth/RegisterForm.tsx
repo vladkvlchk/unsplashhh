@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { registerUser } from "@/app/register/actions";
+import { registerUser } from "@/lib/auth/actions";
 import {
   type RegisterFormValues,
   registerFormSchema,

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { logoutUser } from "@/app/register/actions";
 import { ROUTES } from "@/constants/routes";
+import { logoutUser } from "@/lib/auth/actions";
 import { getSession } from "@/lib/auth/session";
 
 import styles from "./HeaderUser.module.scss";
