@@ -17,7 +17,7 @@ A mini Unsplash clone: browse, search and save beautiful, freely usable photos p
 
 ## Tech stack
 
-- [Next.js](https://nextjs.org) (App Router, SSR, React Compiler enabled)
+- [Next.js](https://nextjs.org) (App Router, SSR)
 - TypeScript
 - SCSS modules
 - [TanStack Query](https://tanstack.com/query) — client cache hydrated from the server
@@ -64,7 +64,8 @@ A husky `pre-push` hook runs `type-check` and `build` before every push.
 
 - **SSR + client cache.** Every page is rendered on the server: feed data is prefetched into a TanStack Query client and dehydrated into the HTML. After hydration, page switches happen client-side through the query cache (with adjacent pages prefetched in the background), while the URL stays shareable and server-renderable.
 - **API layer.** All Unsplash requests run on the server (`src/lib/unsplash/api.ts`) with the access key kept out of the browser; responses are cached by the Next.js Data Cache and trimmed to the exact fields the UI needs to keep payloads small. Thin route handlers (`/api/photos`, `/api/search`) expose the same fetchers to the client cache.
-- **Performance on slow devices.** The masonry layout is pure CSS (`column-count`) with zero JavaScript, layout shift is prevented via aspect ratios, images load through the Unsplash CDN with a custom `next/image` loader (`auto=format`, exact `sizes` per column layout), dominant-color placeholders show instantly, offscreen cards skip rendering via `content-visibility`, and the React Compiler memoizes components automatically.
+- **Performance on slow devices.** The masonry layout is pure CSS (`column-count`) with zero JavaScript, layout shift is prevented via aspect ratios, images load through the Unsplash CDN with a custom `next/image` loader (`auto=format`, exact `sizes` per column layout), dominant-color placeholders show instantly, offscreen cards skip rendering via `content-visibility`, and list components are memoized with `React.memo`.
+- **Auth model (demo-grade).** Registered users live in an httpOnly cookie with salted scrypt password hashes (capped by the cookie size limit, ~15 accounts), and the session cookie holds plain, unsigned identity JSON. This keeps the bonus feature infrastructure-free; it is not a production auth design — that would need a real user store and signed or server-side sessions.
 - **Constants.** Every non-trivial literal (API config, breakpoints, storage keys, routes, validation limits) lives in `src/constants`.
 
 ## Testing
