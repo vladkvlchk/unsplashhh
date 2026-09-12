@@ -5,7 +5,12 @@ import { redirect } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { createSalt, hashPassword, verifyPassword } from "@/lib/auth/passwords";
 import { clearSession, setSession } from "@/lib/auth/session";
-import { findUserByEmail, persistUsers, readUsers } from "@/lib/auth/users";
+import {
+  findUserByEmail,
+  persistUsers,
+  readUsers,
+  usersFitCookie,
+} from "@/lib/auth/users";
 import { type LoginFormValues, loginFormSchema } from "@/lib/schemas/login";
 import {
   type RegisterFormValues,
@@ -30,11 +35,18 @@ export async function registerUser(
 
   const salt = createSalt();
   const users = await readUsers();
-
-  await persistUsers([
+  const nextUsers = [
     ...users,
     { email, name, salt, passwordHash: await hashPassword(password, salt) },
-  ]);
+  ];
+
+  if (!usersFitCookie(nextUsers)) {
+    return {
+      error: "The demo account storage is full — no new accounts can be added",
+    };
+  }
+
+  await persistUsers(nextUsers);
   await setSession({ name, email });
 
   redirect(ROUTES.home);

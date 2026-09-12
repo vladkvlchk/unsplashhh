@@ -3,7 +3,10 @@ import "server-only";
 import { cookies } from "next/headers";
 import { z } from "zod";
 
-import { USERS_COOKIE_NAME } from "@/constants/storage";
+import {
+  USERS_COOKIE_MAX_BYTES,
+  USERS_COOKIE_NAME,
+} from "@/constants/storage";
 import { httpOnlyCookieOptions } from "@/lib/auth/cookies";
 
 const storedUserSchema = z.object({
@@ -48,4 +51,8 @@ export async function findUserByEmail(
   const users = await readUsers();
 
   return users.find((user) => user.email === email);
+}
+
+export function usersFitCookie(users: StoredUser[]): boolean {
+  return JSON.stringify(users).length <= USERS_COOKIE_MAX_BYTES;
 }
