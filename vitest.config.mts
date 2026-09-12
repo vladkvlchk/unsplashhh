@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "server-only": new URL("./src/test/server-only-stub.ts", import.meta.url)
+      "server-only": new URL("./src/test-utils/server-only-stub.ts", import.meta.url)
         .pathname,
       "@": new URL("./src", import.meta.url).pathname,
     },

@@ -18,7 +18,7 @@ import {
 import { PhotoFeed } from "@/components/gallery/PhotoFeed";
 import { PAGE_PARAM } from "@/constants/search-params";
 import { COLUMNS_COOKIE_NAME } from "@/constants/storage";
-import { makePhotosPage } from "@/test/fixtures";
+import { makePhotosPage } from "@/test-utils/fixtures";
 
 vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(window.location.search),

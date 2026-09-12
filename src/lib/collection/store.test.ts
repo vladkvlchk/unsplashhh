@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { COLLECTION_STORAGE_KEY } from "@/constants/storage";
-import { makePhoto } from "@/test/fixtures";
+import { makePhoto } from "@/test-utils/fixtures";
 
 type CollectionStore =
   typeof import("@/lib/collection/store").collectionStore;

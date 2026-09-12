@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { makePhoto } from "@/test/fixtures";
+import { makePhoto } from "@/test-utils/fixtures";
 
 const VISUAL_PHOTO_COUNT = 15;
 
