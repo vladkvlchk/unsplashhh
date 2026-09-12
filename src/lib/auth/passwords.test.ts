@@ -16,25 +16,28 @@ describe("passwords", () => {
     expect(first).not.toBe(second);
   });
 
-  it("hashes deterministically for the same salt", () => {
+  it("hashes deterministically for the same salt", async () => {
     const salt = createSalt();
+    const hash = await hashPassword("secret", salt);
 
-    expect(hashPassword("secret", salt)).toBe(hashPassword("secret", salt));
-    expect(hashPassword("secret", salt)).toHaveLength(PASSWORD_KEY_LENGTH * 2);
+    expect(hash).toBe(await hashPassword("secret", salt));
+    expect(hash).toHaveLength(PASSWORD_KEY_LENGTH * 2);
   });
 
-  it("produces different hashes for different salts", () => {
-    expect(hashPassword("secret", createSalt())).not.toBe(
-      hashPassword("secret", createSalt()),
+  it("produces different hashes for different salts", async () => {
+    expect(await hashPassword("secret", createSalt())).not.toBe(
+      await hashPassword("secret", createSalt()),
     );
   });
 
-  it("verifies a correct password and rejects a wrong one", () => {
+  it("verifies a correct password and rejects a wrong one", async () => {
     const salt = createSalt();
-    const hash = hashPassword("correct horse", salt);
+    const hash = await hashPassword("correct horse", salt);
 
-    expect(verifyPassword("correct horse", salt, hash)).toBe(true);
-    expect(verifyPassword("wrong horse", salt, hash)).toBe(false);
-    expect(verifyPassword("correct horse", salt, "not-a-hash")).toBe(false);
+    expect(await verifyPassword("correct horse", salt, hash)).toBe(true);
+    expect(await verifyPassword("wrong horse", salt, hash)).toBe(false);
+    expect(await verifyPassword("correct horse", salt, "not-a-hash")).toBe(
+      false,
+    );
   });
 });

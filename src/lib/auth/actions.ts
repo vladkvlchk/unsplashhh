@@ -33,7 +33,7 @@ export async function registerUser(
 
   await persistUsers([
     ...users,
-    { email, name, salt, passwordHash: hashPassword(password, salt) },
+    { email, name, salt, passwordHash: await hashPassword(password, salt) },
   ]);
   await setSession({ name, email });
 
@@ -54,7 +54,7 @@ export async function loginUser(
 
   if (
     !user ||
-    !verifyPassword(parsed.data.password, user.salt, user.passwordHash)
+    !(await verifyPassword(parsed.data.password, user.salt, user.passwordHash))
   ) {
     return { error: "Invalid email or password" };
   }
