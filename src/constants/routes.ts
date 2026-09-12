@@ -4,6 +4,7 @@ export const ROUTES = {
   search: "/search",
   tag: (tag: string) => `/t/${encodeURIComponent(tag)}`,
   register: "/register",
+  login: "/login",
   profile: "/profile",
 } as const;
 

@@ -1,13 +1,11 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { ROUTES } from "@/constants/routes";
-import {
-  COOKIE_MAX_AGE_SECONDS,
-  SESSION_COOKIE_NAME,
-} from "@/constants/storage";
+import { createSalt, hashPassword } from "@/lib/auth/passwords";
+import { clearSession, setSession } from "@/lib/auth/session";
+import { findUserByEmail, persistUsers, readUsers } from "@/lib/auth/users";
 import {
   type RegisterFormValues,
   registerFormSchema,
@@ -22,23 +20,27 @@ export async function registerUser(
     return { error: "Please check the entered data and try again" };
   }
 
-  const { name, email } = parsed.data;
-  const cookieStore = await cookies();
+  const { name, password } = parsed.data;
+  const email = parsed.data.email.toLowerCase();
 
-  cookieStore.set(SESSION_COOKIE_NAME, JSON.stringify({ name, email }), {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: COOKIE_MAX_AGE_SECONDS,
-  });
+  if (await findUserByEmail(email)) {
+    return { error: "An account with this email already exists" };
+  }
+
+  const salt = createSalt();
+  const users = await readUsers();
+
+  await persistUsers([
+    ...users,
+    { email, name, salt, passwordHash: hashPassword(password, salt) },
+  ]);
+  await setSession({ name, email });
 
   redirect(ROUTES.home);
 }
 
 export async function logoutUser(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(SESSION_COOKIE_NAME);
+  await clearSession();
 
   redirect(ROUTES.home);
 }

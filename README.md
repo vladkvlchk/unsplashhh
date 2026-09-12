@@ -13,7 +13,7 @@ A mini Unsplash clone: browse, search and save beautiful, freely usable photos p
 - Tag pages — clicking a tag opens a collection feed driven by the same logic as the home feed
 - Photo search
 - Fully server-side rendered, responsive and adaptive at 1440 / 1024 / 768 / 375
-- Bonus: basic registration (session cookie) and a profile collection to save / remove photos
+- Bonus: basic registration and login (session in an httpOnly cookie; registered users are kept in another httpOnly cookie with salted scrypt password hashes as a demo stand-in for a database) and a profile collection to save / remove photos
 
 ## Tech stack
 
@@ -71,7 +71,7 @@ A husky `pre-push` hook runs `type-check` and `build` before every push.
 
 **Unit & integration** — `npm run test` (Vitest + Testing Library + MSW, colocated `*.test.ts(x)` files):
 
-- pure logic: `getPaginationRange` window/ellipsis edge cases, `parsePageParam` / `parseColumnCount` fallbacks, `unsplashImageLoader` URL handling, zod schemas;
+- pure logic: `getPaginationRange` window/ellipsis edge cases, `parsePageParam` / `parseColumnCount` fallbacks, `unsplashImageLoader` URL handling, zod schemas, password hashing and verification helpers;
 - contract tests for the Unsplash API layer: auth and versioning headers, pagination params, trimming responses to exactly the fields the UI consumes, totals with and without the `X-Total` header, typed 404 / error handling;
 - `collectionStore`: toggle/subscribe behavior, persistence, cross-tab storage-event sync, corrupted-data recovery;
 - `PhotoFeed` integration with a mocked API: skeleton → photos, error and rate-limit states with retry, empty state, columns toggle with cookie persistence, pagination URL updates and background prefetch of the next page.

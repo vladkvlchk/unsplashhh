@@ -3,16 +3,16 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { AuthPage } from "@/components/auth/AuthPage";
-import { RegisterForm } from "@/components/auth/RegisterForm";
+import { LoginForm } from "@/components/auth/LoginForm";
 import { APP_NAME } from "@/constants/app";
 import { ROUTES } from "@/constants/routes";
 import { getSession } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
-  title: "Join",
+  title: "Log in",
 };
 
-export default async function RegisterPage() {
+export default async function LoginPage() {
   const session = await getSession();
 
   if (session) {
@@ -21,16 +21,15 @@ export default async function RegisterPage() {
 
   return (
     <AuthPage
-      title={`Join ${APP_NAME}`}
-      subtitle="Create an account to save photos to your collection."
+      title={`Log in to ${APP_NAME}`}
+      subtitle="Welcome back! Enter your account details."
       footer={
         <>
-          Already have an account?{" "}
-          <Link href={ROUTES.login}>Log in</Link>
+          New to {APP_NAME}? <Link href={ROUTES.register}>Join</Link>
         </>
       }
     >
-      <RegisterForm />
+      <LoginForm />
     </AuthPage>
   );
 }

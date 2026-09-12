@@ -10,7 +10,7 @@ import {
   registerFormSchema,
 } from "@/lib/schemas/register";
 
-import styles from "./RegisterForm.module.scss";
+import styles from "./AuthForm.module.scss";
 
 export function RegisterForm() {
   const [serverError, setServerError] = useState<string | null>(null);

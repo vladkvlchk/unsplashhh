@@ -6,8 +6,8 @@ import { ProfileCollection } from "@/app/profile/ProfileCollection";
 import { FeedHeader } from "@/components/feed-header/FeedHeader";
 import { ROUTES } from "@/constants/routes";
 import { COLUMNS_COOKIE_NAME } from "@/constants/storage";
+import { getSession } from "@/lib/auth/session";
 import { parseColumnCount } from "@/lib/columns";
-import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "Your collection",

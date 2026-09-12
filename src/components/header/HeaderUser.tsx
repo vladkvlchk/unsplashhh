@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { logoutUser } from "@/app/register/actions";
 import { ROUTES } from "@/constants/routes";
-import { getSession } from "@/lib/session";
+import { getSession } from "@/lib/auth/session";
 
 import styles from "./HeaderUser.module.scss";
 
@@ -11,9 +11,14 @@ export async function HeaderUser() {
 
   if (!session) {
     return (
-      <Link href={ROUTES.register} className={styles.joinButton}>
-        Join
-      </Link>
+      <div className={styles.guestLinks}>
+        <Link href={ROUTES.login} className={styles.loginLink}>
+          Log in
+        </Link>
+        <Link href={ROUTES.register} className={styles.joinButton}>
+          Join
+        </Link>
+      </div>
     );
   }
 

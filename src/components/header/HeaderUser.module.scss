@@ -1,6 +1,24 @@
 @use "mixins" as *;
 @use "variables" as *;
 
+.guestLinks {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.loginLink {
+  font-size: $font-size-small;
+  font-weight: 500;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: color $transition-fast;
+
+  @include hoverable {
+    color: $color-text;
+  }
+}
+
 .joinButton {
   padding: 8px 14px;
   font-size: $font-size-small;

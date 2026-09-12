@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 
 import { SESSION_COOKIE_NAME } from "@/constants/storage";
+import { httpOnlyCookieOptions } from "@/lib/auth/cookies";
 import type { SessionUser } from "@/types/auth";
 
 const sessionSchema = z.object({
@@ -24,4 +25,19 @@ export async function getSession(): Promise<SessionUser | null> {
   } catch {
     return null;
   }
+}
+
+export async function setSession(user: SessionUser): Promise<void> {
+  const cookieStore = await cookies();
+
+  cookieStore.set(
+    SESSION_COOKIE_NAME,
+    JSON.stringify(user),
+    httpOnlyCookieOptions(),
+  );
+}
+
+export async function clearSession(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE_NAME);
 }
