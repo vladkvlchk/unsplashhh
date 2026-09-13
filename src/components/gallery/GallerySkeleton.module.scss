@@ -1,4 +1,40 @@
+@use "mixins" as *;
 @use "variables" as *;
+
+.skeleton {
+  --gallery-gap: 24px;
+
+  column-gap: var(--gallery-gap);
+
+  @include below($bp-tablet) {
+    --gallery-gap: 16px;
+  }
+}
+
+.columns3 {
+  column-count: 3;
+}
+
+.columns5 {
+  column-count: 5;
+}
+
+@include below($bp-laptop) {
+  .columns3 {
+    column-count: 2;
+  }
+
+  .columns5 {
+    column-count: 3;
+  }
+}
+
+@include below($bp-tablet) {
+  .columns3,
+  .columns5 {
+    column-count: 1;
+  }
+}
 
 .item {
   margin-bottom: var(--gallery-gap);

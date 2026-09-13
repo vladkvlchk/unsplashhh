@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { PHOTOS_PER_PAGE } from "@/constants/api";
 import { type ColumnCount, SKELETON_ASPECT_RATIOS } from "@/constants/layout";
 
-import galleryStyles from "./Gallery.module.scss";
 import styles from "./GallerySkeleton.module.scss";
 
 interface GallerySkeletonProps {
@@ -17,10 +16,7 @@ export function GallerySkeleton({
 }: GallerySkeletonProps) {
   return (
     <ul
-      className={clsx(
-        galleryStyles.gallery,
-        galleryStyles[`columns${columns}`],
-      )}
+      className={clsx(styles.skeleton, styles[`columns${columns}`])}
       aria-hidden="true"
     >
       {Array.from({ length: count }, (_, index) => (

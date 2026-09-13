@@ -86,15 +86,15 @@ test("masonry grid keeps its layout at 3 and 5 columns", async ({ page }) => {
   });
   await page.mouse.move(0, 0);
 
-  const gallery = page.locator("main ul");
+  const feed = page.locator("main");
 
-  await expect(gallery).toHaveScreenshot("masonry-3-columns.png", {
+  await expect(feed).toHaveScreenshot("masonry-3-columns.png", {
     animations: "disabled",
   });
 
   await page.getByRole("button", { name: "5 columns" }).click();
   await page.mouse.move(0, 0);
-  await expect(gallery).toHaveScreenshot("masonry-5-columns.png", {
+  await expect(feed).toHaveScreenshot("masonry-5-columns.png", {
     animations: "disabled",
   });
 });

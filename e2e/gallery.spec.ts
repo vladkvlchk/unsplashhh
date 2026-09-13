@@ -38,18 +38,16 @@ test("pagination switches pages and updates the url", async ({ page }) => {
 test("columns toggle switches between 3 and 5 columns", async ({ page }) => {
   await page.goto("/");
 
-  const gallery = page.locator("main ul").first();
+  const columns = page.locator("main ul", {
+    has: page.locator("a[href^='/photos/']"),
+  });
   await expect(page.locator("main ul li img").first()).toBeVisible();
 
   await page.getByRole("button", { name: "5 columns" }).click();
-  await expect
-    .poll(() => gallery.evaluate((el) => getComputedStyle(el).columnCount))
-    .toBe("5");
+  await expect(columns).toHaveCount(5);
 
   await page.getByRole("button", { name: "3 columns" }).click();
-  await expect
-    .poll(() => gallery.evaluate((el) => getComputedStyle(el).columnCount))
-    .toBe("3");
+  await expect(columns).toHaveCount(3);
 });
 
 test("search from the header, open a photo, follow a tag", async ({

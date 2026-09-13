@@ -9,6 +9,8 @@ export const TABLET_COLUMN_MAP: Record<ColumnCount, number> = {
   5: 3,
 };
 
+export const MOBILE_COLUMN_COUNT = 1;
+
 export const BREAKPOINTS = {
   mobile: 375,
   tablet: 768,
